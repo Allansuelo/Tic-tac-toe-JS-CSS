@@ -1,5 +1,6 @@
 const X_CLASS = 'x'
 const CIRCLE_CLASS = 'circle'
+//Winning conditions
 const WINNING_COMBINATIONS = [
   [0, 1, 2],
   [3, 4, 5],
@@ -16,18 +17,20 @@ const winningMessageElement = document.getElementById('winningMessage')
 const restartButton = document.getElementById('restartButton')
 const winningMessageTextElement = document.querySelector('[data-winning-message-text]')
 let circleTurn
-let animBoard  = "scale-in-hor-left"
+let animBoard  = "jello-vertical"
 var audio = new Audio('click.mp3');
 
 startGame()
 
 restartButton.addEventListener('click', startGame)
 
+//Start game
 function startGame() {
   circleTurn = false
   cellElements.forEach(cell => {
     cell.classList.remove(X_CLASS)
     cell.classList.remove(CIRCLE_CLASS)
+    cell.classList.remove(animBoard)
     cell.removeEventListener('click', handleClick)
     cell.addEventListener('click', handleClick, { once: true })
   })
@@ -35,6 +38,7 @@ function startGame() {
   winningMessageElement.classList.remove('show')
 }
 
+//Check for a click in e cell
 function handleClick(e) {
   const cell = e.target
   const currentClass = circleTurn ? CIRCLE_CLASS : X_CLASS
@@ -49,6 +53,7 @@ function handleClick(e) {
   }
 }
 
+//Check how to end the game
 function endGame(draw) {
   if (draw) {
     winningMessageTextElement.innerText = 'Draw!'
@@ -58,22 +63,26 @@ function endGame(draw) {
   winningMessageElement.classList.add('show')
 }
 
+//Check for a draw
 function isDraw() {
   return [...cellElements].every(cell => {
     return cell.classList.contains(X_CLASS) || cell.classList.contains(CIRCLE_CLASS)
   })
 }
 
+//Place X or O in cells
 function placeMark(cell, currentClass) {
   cell.classList.add(currentClass)
   audio.play();
   cell.classList.add(animBoard)
 }
 
+//Change player turn
 function swapTurns() {
   circleTurn = !circleTurn
 }
 
+//How mouse interact with the board
 function setBoardHoverClass() {
   board.classList.remove(X_CLASS)
   board.classList.remove(CIRCLE_CLASS)
@@ -83,7 +92,7 @@ function setBoardHoverClass() {
     board.classList.add(X_CLASS)
   }
 }
-
+//Check for winning conditions
 function checkWin(currentClass) {
   return WINNING_COMBINATIONS.some(combination => {
     return combination.every(index => {
