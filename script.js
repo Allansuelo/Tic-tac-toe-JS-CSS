@@ -1,6 +1,6 @@
 const X_CLASS = 'x'
 const CIRCLE_CLASS = 'circle'
-//Winning conditions
+//8  Winning conditions
 const WINNING_COMBINATIONS = [
   [0, 1, 2],
   [3, 4, 5],
